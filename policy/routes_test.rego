@@ -56,3 +56,17 @@ test_warn_deprecated_host {
     warn["The component attributes for specifying routes have been deprecated. Use the routes array instead."] with input as input
 }
 
+test_warn_deprecated_hosts {
+    input := { 
+        "applications": [
+            {
+                "name": "application",
+                "hosts": [
+                    "app.host.tld"
+                ],
+            }
+        ]
+    } 
+    warn["The component attributes for specifying routes have been deprecated. Use the routes array instead."] with input as input
+}
+
