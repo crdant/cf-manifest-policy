@@ -81,3 +81,67 @@ test_warn_deprecated_hosts {
     } 
     warn["The component attributes for specifying routes have been deprecated. Use the routes array instead."] with input as input
 }
+
+test_no_routes_with_deprecated_component_attributes {
+    input := {
+        "applications": [
+            {
+                "name": "application",
+                "routes": [
+                   { "route": "app.host.tld" }
+                ],
+                "domain": "host.tld"
+            }
+        ]
+    }
+    deny["Routes array cannot be used with deprecated routing attributes"] with input as input
+}
+
+test_no_routes_with_deprecated_component_attributes {
+    input := {
+        "applications": [
+            {
+                "name": "application",
+                "routes": [
+                   { "route": "app.host.tld" }
+                ],
+                "domains": [
+                    "host.tld"
+                ]
+            }
+        ]
+    }
+    deny["Routes array cannot be used with deprecated routing attributes"] with input as input
+}
+
+test_no_routes_with_deprecated_component_attributes {
+    input := {
+        "applications": [
+            {
+                "name": "application",
+                "routes": [
+                   { "route": "app.host.tld" }
+                ],
+                "host": "app.host.tld" 
+            }
+        ]
+    }
+    deny["Routes array cannot be used with deprecated routing attributes"] with input as input
+}
+
+test_no_routes_with_deprecated_component_attributes {
+    input := {
+        "applications": [
+            {
+                "name": "application",
+                "routes": [
+                   { "route": "app.host.tld" }
+                ],
+                "hosts": [
+                    "app.host.tld" 
+                ],
+            }
+        ]
+    }
+    deny["Routes array cannot be used with deprecated routing attributes"] with input as input
+}
