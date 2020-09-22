@@ -34,6 +34,18 @@ test_route_structure {
     deny["Entries in the route array must have a route attribute"] with input as input
 }
 
+test_no_empty_routes {
+    input := {
+        "applications": [
+            {
+                "name": "application",
+                "routes": [ { "route": "" } ]
+            }
+        ]
+    }
+    deny["Entries in the route array must specify a valid route"] with input as input
+}
+
 test_warn_no_route_override {
     input := {
         "applications": [

@@ -13,6 +13,23 @@ deny[msg] {
     msg := "Entries in the route array must have a route attribute"
 }
 
+valid_routes {
+    not has_empty_route
+}
+
+has_empty_route {
+    some app
+    some r
+    route := input.applications[app].routes[r]
+    route.route == ""
+}
+
+deny[msg] {
+    has_route_array
+    not valid_routes
+    msg := "Entries in the route array must specify a valid route"
+}
+
 warn[msg] {
     has_no_route
     has_route_array
