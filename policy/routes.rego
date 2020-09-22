@@ -1,6 +1,6 @@
 package main
 
-invalid_route_array_entry {
+has_invalid_route_structure {
     some app
     some r
     route := input.applications[app].routes[r]
@@ -9,15 +9,25 @@ invalid_route_array_entry {
 
 deny[msg] {
     has_route_array
-    invalid_route_array_entry
+    has_invalid_route_structure
     msg := "Entries in the route array must have a route attribute"
 }
 
-valid_routes {
-    not has_empty_route
+has_invalid_route_structure {
+    some app
+    some r
+    route := input.applications[app].routes[r]
+    not route.route
 }
 
-has_empty_route {
+
+deny[msg] {
+    has_route_array
+    has_empty_routes
+    msg := "Entries in the route array must specify a non-empty route"
+}
+
+has_empty_routes {
     some app
     some r
     route := input.applications[app].routes[r]
