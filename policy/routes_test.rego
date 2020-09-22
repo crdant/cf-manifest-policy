@@ -43,7 +43,31 @@ test_no_empty_routes {
             }
         ]
     }
-    deny["Entries in the route array must specify a valid route"] with input as input
+    deny["Entries in the route array must specify a non-empty route"] with input as input
+}
+
+test_routes_are_qualified {
+    input := {
+        "applications": [
+            {
+                "name": "application",
+                "routes": [ { "route": "host" } ]
+            }
+       ]
+    }
+    deny["Entries in the route array must include a DNS domain"] with input as input
+}
+
+test_tcp_ports_are_numbers {
+    input := {
+        "applications": [
+            {
+                "name": "application",
+                "routes": [ { "route": "host:http" } ]
+            }
+       ]
+    }
+    deny["The port in a TCP route must be a number"] with input as input
 }
 
 test_warn_no_route_override {

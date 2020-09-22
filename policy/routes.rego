@@ -36,8 +36,37 @@ has_empty_routes {
 
 deny[msg] {
     has_route_array
-    not valid_routes
-    msg := "Entries in the route array must specify a valid route"
+    has_name_without_domain
+    msg := "Entries in the route array must include a DNS domain"
+}
+
+has_name_without_domain {
+    some app
+    some r
+    route := input.applications[app].routes[r]
+    not contains(route.route, ".")
+}
+
+deny[msg] {
+    has_route_array
+    has_tcp_route
+    has_invalid_tcp_route
+    msg := "The port in a TCP route must be a number"
+}
+
+has_tcp_route {
+    some app
+    some r
+    route := input.applications[app].routes[r].route
+    count(split(route,":")) == 2
+}
+
+has_invalid_tcp_route {
+    some app
+    some r
+    route := input.applications[app].routes[r].route
+    contains(route,":")
+    not regex.match("[a-zA-Z.-]:\\d+", route) 
 }
 
 warn[msg] {
