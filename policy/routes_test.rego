@@ -9,13 +9,29 @@ test_uses_routes_array {
                     "buildpack"
                 ],
                 "routes": [
-                   { "route": "app.host.tld" }
+                   { "route": "app.host.tld" },
+                   { "route": "app.host.tld:1234" },
+                   { "route": "app.host.tld/path"}
                 ]
             }
         ]
     } 
     no_violations with input as input
     no_warnings with input as input
+}
+
+test_route_structure {
+    input := {
+        "applications": [
+            {
+                "name": "application",
+                "routes": [
+                    "app.host.tld"
+                ]
+            }
+        ]
+    }
+    deny["Entries in the route array must have a route attribute"] with input as input
 }
 
 test_warn_deprecated_domain {

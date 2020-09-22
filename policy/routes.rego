@@ -1,5 +1,18 @@
 package main
 
+valid_route_array_structure {
+    some app
+    some r
+    route := input.applications[app].routes[r]
+    route.route
+}
+
+deny[msg] {
+    input.applications[app].routes
+    not valid_route_array_structure
+    msg := "Entries in the route array must have a route attribute"
+}
+
 warn[msg] {
     input.applications[app].domain
     msg := "The component attributes for specifying routes have been deprecated. Use the routes array instead."
