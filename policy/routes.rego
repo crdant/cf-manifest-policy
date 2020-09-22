@@ -19,3 +19,8 @@ warn[msg] {
     input.applications[app].hosts
     msg := "The component attributes for specifying routes have been deprecated. Use the routes array instead."
 }
+
+warn[msg] {
+    input.applications[app]["no-hostname"]
+    msg := "The component attributes for specifying routes have been deprecated. Use the routes array instead."
+}
