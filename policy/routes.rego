@@ -8,29 +8,83 @@ valid_route_array_structure {
 }
 
 deny[msg] {
-    input.applications[app].routes
+    has_route_array
     not valid_route_array_structure
     msg := "Entries in the route array must have a route attribute"
 }
 
 warn[msg] {
+    has_no_route
+    has_route_array
+    msg := "Specifying no-route will override all other routing attributes"
+}
+
+has_no_route {
+    input.applications[app]["no-route"]
+}
+
+has_route_array {
+    input.applications[app].routes
+}
+
+warn[msg] {
+    has_domain
+    msg := "The component attributes for specifying routes have been deprecated. Use the routes array instead."
+}
+
+warn[msg] {
+    has_no_route
+    has_domain
+    msg := "Specifying no-route will override all other routing attributes"
+}
+
+has_domain {
     input.applications[app].domain
+}
+
+warn[msg] {
+    has_domains
     msg := "The component attributes for specifying routes have been deprecated. Use the routes array instead."
 }
 
 warn[msg] {
+    has_no_route
+    has_domains
+    msg := "Specifying no-route will override all other routing attributes"
+}
+
+has_domains {
     input.applications[app].domains
+}
+
+warn[msg] {
+    has_host
     msg := "The component attributes for specifying routes have been deprecated. Use the routes array instead."
 }
 
 warn[msg] {
+    has_no_route
+    has_host
+    msg := "Specifying no-route will override all other routing attributes"
+}
+
+has_host {
     input.applications[app].host
+}
+
+warn[msg] {
+    has_hosts
     msg := "The component attributes for specifying routes have been deprecated. Use the routes array instead."
 }
 
 warn[msg] {
+    has_no_route
+    has_hosts
+    msg := "Specifying no-route will override all other routing attributes"
+}
+
+has_hosts {
     input.applications[app].hosts
-    msg := "The component attributes for specifying routes have been deprecated. Use the routes array instead."
 }
 
 warn[msg] {
@@ -39,25 +93,25 @@ warn[msg] {
 }
 
 deny[msg] {
-    input.applications[app].routes
-    input.applications[app].domain
+    has_route_array
+    has_domain
     msg := "Routes array cannot be used with deprecated routing attributes"
 }
 
 deny[msg] {
-    input.applications[app].routes
-    input.applications[app].domains
+    has_route_array
+    has_domains
     msg := "Routes array cannot be used with deprecated routing attributes"
 }
 
 deny[msg] {
-    input.applications[app].routes
-    input.applications[app].host
+    has_route_array
+    has_host
     msg := "Routes array cannot be used with deprecated routing attributes"
 }
 
 deny[msg] {
-    input.applications[app].routes
-    input.applications[app].hosts
+    has_route_array
+    has_hosts
     msg := "Routes array cannot be used with deprecated routing attributes"
 }

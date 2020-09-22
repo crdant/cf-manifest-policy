@@ -34,6 +34,74 @@ test_route_structure {
     deny["Entries in the route array must have a route attribute"] with input as input
 }
 
+test_warn_no_route_override {
+    input := {
+        "applications": [
+            {
+                "name": "application",
+                "routes": { "route": "app.domain.tld" },
+                "no-route": true
+            }
+        ]
+    }    
+    warn["Specifying no-route will override all other routing attributes"] with input as input 
+}
+
+test_warn_no_route_override {
+    input := {
+        "applications": [
+            {
+                "name": "application",
+                "domain": "domain.tld",
+                "no-route": true
+            }
+        ]
+    }    
+    warn["Specifying no-route will override all other routing attributes"] with input as input 
+}
+
+test_warn_no_route_override {
+    input := {
+        "applications": [
+            {
+                "name": "application",
+                "domains": [ "domain.tld", "another.tld" ],
+                "no-route": true
+            }
+        ]
+    }    
+    warn["Specifying no-route will override all other routing attributes"] with input as input 
+}
+
+test_warn_no_route_override {
+    input := {
+        "applications": [
+            {
+                "name": "application",
+                "host": "app",
+                "no-route": true
+            }
+        ]
+    }    
+    warn["Specifying no-route will override all other routing attributes"] with input as input 
+}
+
+test_warn_no_route_override {
+    input := {
+        "applications": [
+            {
+                "name": "application",
+                "hosts": [
+                    "app",
+                    "another"
+                ],
+                "no-route": true
+            }
+        ]
+    }    
+    warn["Specifying no-route will override all other routing attributes"] with input as input 
+}
+
 test_warn_deprecated_domain {
     input := { 
         "applications": [
@@ -65,7 +133,7 @@ test_warn_deprecated_host {
         "applications": [
             {
                 "name": "application",
-                "host": "app.host.tld"
+                "host": "app"
             }
         ]
     } 
@@ -78,7 +146,8 @@ test_warn_deprecated_hosts {
             {
                 "name": "application",
                 "hosts": [
-                    "app.host.tld"
+                    "app",
+                    "another"
                 ],
             }
         ]
