@@ -1,15 +1,15 @@
 package main
 
-valid_route_array_structure {
+invalid_route_array_entry {
     some app
     some r
     route := input.applications[app].routes[r]
-    route.route
+    not route.route
 }
 
 deny[msg] {
     has_route_array
-    not valid_route_array_structure
+    invalid_route_array_entry
     msg := "Entries in the route array must have a route attribute"
 }
 
