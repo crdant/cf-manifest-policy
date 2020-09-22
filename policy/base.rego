@@ -7,3 +7,7 @@ empty(value) {
 no_violations {
   empty(deny)
 }
+
+no_warnings {
+  empty(warn)
+}
