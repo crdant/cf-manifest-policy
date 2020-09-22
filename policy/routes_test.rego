@@ -102,6 +102,48 @@ test_warn_no_route_override {
     warn["Specifying no-route will override all other routing attributes"] with input as input 
 }
 
+test_warn_random_route_ignored {
+    input := {
+        "applications": [
+            {
+                "name": "application",
+                "routes": { "route": "app.domain.tld" },
+                "random-route": true
+            }
+        ]
+    }
+    warn["Random route will not be generated if routes are specified"] with input as input
+}
+
+test_warn_random_route_ignored {
+    input := {
+        "applications": [
+            {
+                "name": "application",
+                "host": "app",
+                "random-route": true
+            }
+        ]
+    }
+    warn["Random route will not be generated if routes are specified"] with input as input
+}
+
+test_warn_random_route_ignored {
+    input := {
+        "applications": [
+            {
+                "name": "application",
+                "hosts": [
+                    "app",
+                    "another"
+                ],
+                "random-route": true
+            }
+        ]
+    }
+    warn["Random route will not be generated if routes are specified"] with input as input
+}
+
 test_warn_deprecated_domain {
     input := { 
         "applications": [

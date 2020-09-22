@@ -28,6 +28,16 @@ has_route_array {
 }
 
 warn[msg] {
+    has_random_route
+    has_route_array
+    msg := "Random route will not be generated if routes are specified"
+}
+
+has_random_route {
+    input.applications[app]["random-route"]
+}
+
+warn[msg] {
     has_domain
     msg := "The component attributes for specifying routes have been deprecated. Use the routes array instead."
 }
@@ -68,6 +78,12 @@ warn[msg] {
     msg := "Specifying no-route will override all other routing attributes"
 }
 
+warn[msg] {
+    has_random_route
+    has_host
+    msg := "Random route will not be generated if routes are specified"
+}
+
 has_host {
     input.applications[app].host
 }
@@ -81,6 +97,12 @@ warn[msg] {
     has_no_route
     has_hosts
     msg := "Specifying no-route will override all other routing attributes"
+}
+
+warn[msg] {
+    has_random_route
+    has_hosts
+    msg := "Random route will not be generated if routes are specified"
 }
 
 has_hosts {
