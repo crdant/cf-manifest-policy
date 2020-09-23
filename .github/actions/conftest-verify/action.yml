@@ -27,6 +27,4 @@ runs:
       TRACE="--trace"
     fi
   
-    echo ${HOME}
-    find ${HOME}
-    # conftest verify ${TRACE} --output "${{ inputs.output }}" --policy "${{ inputs.policy }}" --data "${{ inputs.data }}"
+    conftest verify ${TRACE} --output "${{ inputs.output }}" --policy "${{ inputs.policy }}" --data "${{ inputs.data }}"
