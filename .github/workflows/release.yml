@@ -25,6 +25,8 @@ jobs:
           password: ${{ secrets.GHCR_TOKEN }}
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Debug
+        run: "echo ${HOME}"
       - name: Push to registry
         uses: ./.github/actions/conftest-push
         with:
