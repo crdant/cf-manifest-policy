@@ -15,6 +15,7 @@ inputs:
     default: "stdout"
   trace:
     description: "Enable more verbose tracing output"
+    default: 
 runs:
   using: 'docker'
   image: 'docker://instrumenta/conftest:latest'
