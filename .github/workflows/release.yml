@@ -23,6 +23,9 @@ jobs:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GHCR_TOKEN }}
+      - name: Expose Docker Config
+        run: |
+          cp -r ${HOME}/.docker /home/runner/work/_temp/_github_home/
       - name: Checkout
         uses: actions/checkout@v2
       - name: Push to registry
