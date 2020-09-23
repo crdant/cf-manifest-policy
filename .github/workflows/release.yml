@@ -25,11 +25,10 @@ jobs:
           password: ${{ secrets.GHCR_TOKEN }}
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Debug
-        run: |
-          echo ${HOME}
-          find ${HOME}
       - name: Push to registry
         uses: ./.github/actions/conftest-push
+        container:
+          volumes:
+          - /home/runner:/github/home
         with:
           repository: ghcr.io/crdant/cf-manifest-policy
