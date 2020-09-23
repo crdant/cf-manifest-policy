@@ -5,7 +5,7 @@ branding:
   icon: "package"
   color: "grey-dark"
 inputs: 
-  version:
+  revision:
     description: "Version of the bundle"
     require: true
   bundle:
@@ -19,8 +19,8 @@ runs:
   image: 'docker://openpolicyagent/opa:latest'
   args:
   - build
-  - --version
-  - "${{ inputs.version }}"
+  - --revision
+  - "${{ inputs.revision }}"
   - --bundle
   - "${{ inputs.bundle }}"
   - --output

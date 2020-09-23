@@ -26,7 +26,7 @@ jobs:
         id: create_bundle
         uses: ./.github/actions/opa-bundle
         with:
-          version: ${{ github.ref }}
+          revision: ${{ github.ref }}
           output: policy.tar.gz
       - name: Create Release
         id: create_release
