@@ -16,9 +16,6 @@ jobs:
     name: Release the OPA bundle
     runs-on: ubuntu-latest
     needs: test
-    container:
-      volumes:
-      - /home/runner:/github/home
     steps:
       - name: Docker Login
         uses: docker/login-action@v1
