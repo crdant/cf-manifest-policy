@@ -5,8 +5,8 @@ branding:
   icon: "upload"
   color: "blue"
 inputs: 
-  path:
-    description: "Path to include in the bundle"
+  policy:
+    description: "Policies to include in the bundle"
     default: "policy" 
   repository:
     description: "Repository for the policy on an OCI-compliant registry supporting OPA bundles"
@@ -25,4 +25,4 @@ runs:
   - -c
   - |
     echo "${{ inputs.password }}" | docker login --username "${{ inputs.username }}" --password-stdin "${{ inputs.repository }}"
-    conftest push "${{ inputs.repository }}:${{ inputs.tag }}" "${{ inputs.path }}" 
+    conftest push --policy ${{ inputs.policy }} "${{ inputs.repository }}:${{ inputs.tag }}"
