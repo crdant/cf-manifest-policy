@@ -27,4 +27,6 @@ runs:
       TRACE="--trace"
     fi
   
+    pwd
+    ls
     conftest verify ${TRACE} --output "${{ inputs.output }}" --policy "${{ inputs.policy }}" --data "${{ inputs.data }}"
