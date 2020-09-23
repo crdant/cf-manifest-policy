@@ -14,12 +14,18 @@ inputs:
   repository:
     description: "Repository for the policy on an OCI-compliant registry supporting OPA bundles"
     required: true
+  username:
+    description: 'Username used to log against the Docker registry'
+    required: false
+  password:
+    description: 'Password or personal access token used to log against the Docker registry'
+    required: true
 runs:
   using: 'docker'
-  image: 'docker://instrumenta/conftest:latest'
+  image: 'Dockerfile'
   entrypoint: sh
   args:
   - -c
   - |
-    docker
+    docker login --username "${{ inputs.username }}" --password "${{ inputs.password }}" 
     conftest push --policy "${{ inputs.policy }}" "${{ inputs.repository }}:${{ inputs.tag }}" "${{ inputs.path }}" 
