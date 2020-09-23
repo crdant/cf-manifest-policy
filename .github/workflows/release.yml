@@ -1,0 +1,24 @@
+name: Release
+
+on: push
+
+jobs:
+  test:
+    name: Unit test the policies
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 
+        uses: actions/checkout@v2
+      - name: Verify policies
+        uses: ./.github/actions/conftest-verify
+          
+  release:
+    name: Release the OPA bundle
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 
+        uses: actions/checkout@v2
+      - name: Push to registry
+        uses: ./.github/actions/conftest-push
+        with:
+          repository: crdant.azurecr.io/cf-manifest-policy
