@@ -21,5 +21,4 @@ runs:
   args:
   - -c
   - |
-    find /
-    # conftest push --policy "${{ inputs.policy }}" "${{ inputs.repository }}:${{ inputs.tag }}" "${{ inputs.path }}" 
+    conftest push --policy "${{ inputs.policy }}" "${{ inputs.repository }}:${{ inputs.tag }}" "${{ inputs.path }}" 
