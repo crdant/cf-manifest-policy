@@ -24,7 +24,7 @@ jobs:
         uses: actions/checkout@v2
       - name: Create OPA Bundle
         id: create_bundle
-        uses: ./.github/actions/conftest-push
+        uses: ./.github/actions/opa-bundle
         with:
           version: ${{ github.ref }}
           output: policy.tar.gz
