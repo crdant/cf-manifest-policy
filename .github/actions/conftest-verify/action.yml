@@ -28,4 +28,4 @@ runs:
     fi
   
     echo ${HOME}
-    conftest verify ${TRACE} --output "${{ inputs.output }}" --policy "${{ inputs.policy }}" --data "${{ inputs.data }}"
+    # conftest verify ${TRACE} --output "${{ inputs.output }}" --policy "${{ inputs.policy }}" --data "${{ inputs.data }}"
