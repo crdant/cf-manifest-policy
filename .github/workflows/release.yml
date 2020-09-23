@@ -26,8 +26,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Push to registry
-        run: |
-          cp -r ${HOME}/.docker /home/runner/work/_temp/_github_home/
         uses: ./.github/actions/conftest-push
         with:
           repository: ghcr.io/crdant/cf-manifest-policy
