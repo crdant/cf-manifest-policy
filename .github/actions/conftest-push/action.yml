@@ -21,4 +21,5 @@ runs:
   args:
   - -c
   - |
+    docker
     conftest push --policy "${{ inputs.policy }}" "${{ inputs.repository }}:${{ inputs.tag }}" "${{ inputs.path }}" 
