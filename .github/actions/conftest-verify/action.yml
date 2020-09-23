@@ -23,8 +23,7 @@ runs:
   args:
   - -c
   - |
-    echo "Trace: " ${{ inputs.trace }}"
-    if [[ -n "${{ inputs.trace }} " ]]; then
+    if [[ -n "${{ inputs.trace }}" ]]; then
       TRACE="--trace"
     fi
   
