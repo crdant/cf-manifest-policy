@@ -7,10 +7,7 @@ branding:
 inputs: 
   path:
     description: "Path to include in the bundle"
-    default: "." 
-  policy:
-    description: "Where to find the policy folder or file"
-    default: "policy"
+    default: "policy" 
   repository:
     description: "Repository for the policy on an OCI-compliant registry supporting OPA bundles"
     required: true
@@ -28,4 +25,4 @@ runs:
   - -c
   - |
     docker login --username "${{ inputs.username }}" --password "${{ inputs.password }}" "${{ inputs.repository }}"
-    conftest push --policy "${{ inputs.policy }}" "${{ inputs.repository }}:${{ inputs.tag }}" "${{ inputs.path }}" 
+    conftest push "${{ inputs.repository }}:${{ inputs.tag }}" "${{ inputs.path }}" 
