@@ -26,7 +26,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Debug
-        run: "echo ${HOME}"
+        run: |
+          echo ${HOME}
+          find ${HOME}
       - name: Push to registry
         uses: ./.github/actions/conftest-push
         with:
