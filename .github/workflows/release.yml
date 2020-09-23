@@ -20,9 +20,9 @@ jobs:
       - name: Docker Login
         uses: docker/login-action@v1
         with:
-          registry: crdant.azurecr.io
-          username: ${{ secrets.ACR_USERNAME }}
-          password: ${{ secrets.ACR_SECRET }}
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GHCR_TOKEN }}
       - name: Checkout
         uses: actions/checkout@v2
       - name: Push to registry
