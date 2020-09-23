@@ -17,7 +17,7 @@ jobs:
   release: 
     name: Create GitHub release
     runs-on: ubuntu-latest
-    needs: push
+    needs: test
     steps:
       - name: Checkout
         id: checkout
@@ -52,7 +52,7 @@ jobs:
   push:
     name: Push OPA bundle to the regisry
     runs-on: ubuntu-latest
-    needs: test
+    needs: release
     steps:
       - name: Checkout
         id: checkout
