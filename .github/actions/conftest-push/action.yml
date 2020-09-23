@@ -27,5 +27,5 @@ runs:
   args:
   - -c
   - |
-    docker login --username "${{ inputs.username }}" --password "${{ inputs.password }}" 
+    docker login --username "${{ inputs.username }}" --password "${{ inputs.password }}" "${{ inputs.repository }}"
     conftest push --policy "${{ inputs.policy }}" "${{ inputs.repository }}:${{ inputs.tag }}" "${{ inputs.path }}" 
