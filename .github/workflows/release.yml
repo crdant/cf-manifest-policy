@@ -1,0 +1,73 @@
+name: Release
+
+on: 
+  push:
+    branches:
+    - master
+    tags:
+    - v*
+    
+
+jobs:
+  test:
+    name: Unit test policies
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 
+        id: checkout
+        uses: actions/checkout@v2
+      - name: Verify Policies
+        id: verify
+        uses: ./.github/actions/conftest-verify
+     
+  release: 
+    name: Create GitHub release
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Checkout
+        id: checkout
+        uses: actions/checkout@v2
+      - name: Create OPA Bundle
+        id: create_bundle
+        uses: ./.github/actions/opa-bundle
+        with:
+          revision: ${{ github.ref }}
+          output: policy.tar.gz
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: true
+      - name: Add Bundle as Release Asset
+        id: add_bundle
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} 
+          asset_path: policy.tar.gz
+          asset_name: cf-manifest-policy.tar.gz
+          asset_content_type: application/x-gtar
+          
+  push:
+    name: Push OPA bundle to the regisry
+    runs-on: ubuntu-latest
+    needs: release
+    steps:
+      - name: Checkout
+        id: checkout
+        uses: actions/checkout@v2
+      - name: Push to Registry
+        id: push
+        uses: ./.github/actions/conftest-push
+        with:
+          repository: ghcr.io/crdant/cf-manifest-policy
+          username: ${{ github.actor }}
+          password: ${{ secrets.GHCR_TOKEN }}
+

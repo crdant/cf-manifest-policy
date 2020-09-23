@@ -1,0 +1,27 @@
+name: "OPA Bundle"
+description: "Create a bundle of OPA policies"
+author: "Chuck D'Antonio"
+branding:
+  icon: "package"
+  color: "grey-dark"
+inputs: 
+  revision:
+    description: "Version of the bundle"
+    require: true
+  bundle:
+    description: "Paths to policy files for the bundle"
+    default: "policy"
+  output:
+    description: "Output filename for the bundle tarball"
+    default: "bundle.tar.gz"
+runs:
+  using: 'docker'
+  image: 'docker://openpolicyagent/opa:latest'
+  args:
+  - build
+  - --revision
+  - "${{ inputs.revision }}"
+  - --bundle
+  - "${{ inputs.bundle }}"
+  - --output
+  - "/github/workspace/${{ inputs.output }}"

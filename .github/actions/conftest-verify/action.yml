@@ -1,0 +1,30 @@
+name: "Conftest Verify"
+description: "Run unit test to validate OPA policies for use with Conftest"
+author: "Chuck D'Antonio"
+branding:
+  icon: "check"
+  color: "green"
+inputs: 
+  policy:
+    description: "Where to find the policy folder or file"
+    default: "policy"
+  data:
+    description: "Paths from which data for the policies will be recursively loaded"
+  output:
+    description: "Output format for results"
+    default: "stdout"
+  trace:
+    description: "Enable more verbose tracing output"
+    default: 
+runs:
+  using: 'docker'
+  image: 'docker://instrumenta/conftest:latest'
+  entrypoint: sh
+  args:
+  - -c
+  - |
+    if [[ -n "${{ inputs.trace }}" ]]; then
+      TRACE="--trace"
+    fi
+  
+    conftest verify ${TRACE} --output "${{ inputs.output }}" --policy "${{ inputs.policy }}" --data "${{ inputs.data }}"

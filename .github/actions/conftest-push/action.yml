@@ -1,0 +1,28 @@
+name: "Conftest Push"
+description: "Push an OPA bundle to an OCI-compliant registry"
+author: "Chuck D'Antonio"
+branding:
+  icon: "upload"
+  color: "blue"
+inputs: 
+  policy:
+    description: "Policies to include in the bundle"
+    default: "policy" 
+  repository:
+    description: "Repository for the policy on an OCI-compliant registry supporting OPA bundles"
+    required: true
+  username:
+    description: 'Username used to log against the Docker registry'
+    required: false
+  password:
+    description: 'Password or personal access token used to log against the Docker registry'
+    required: true
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  entrypoint: sh
+  args:
+  - -c
+  - |
+    echo "${{ inputs.password }}" | docker login --username "${{ inputs.username }}" --password-stdin "${{ inputs.repository }}"
+    conftest push --policy ${{ inputs.policy }} "${{ inputs.repository }}:${{ inputs.tag }}"
