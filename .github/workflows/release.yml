@@ -63,11 +63,21 @@ jobs:
       - name: Checkout
         id: checkout
         uses: actions/checkout@v2
-      - name: Push to Registry
+      - name: Push Registry to Registry Version Tag
         id: push
         uses: ./.github/actions/conftest-push
         with:
           repository: ghcr.io/crdant/cf-manifest-policy
           username: ${{ github.actor }}
           password: ${{ secrets.GHCR_TOKEN }}
+          tag: ${{ github.reg }}
+
+      - name: Push to Registry Latest Tag
+        id: push
+        uses: ./.github/actions/conftest-push
+        with:
+          repository: ghcr.io/crdant/cf-manifest-policy
+          username: ${{ github.actor }}
+          password: ${{ secrets.GHCR_TOKEN }}
+          tag: latest
 
