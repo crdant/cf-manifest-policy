@@ -5,9 +5,6 @@ test_uses_routes_array {
         "applications": [
             {
                 "name": "application",
-                "buildpacks": [
-                    "buildpack"
-                ],
                 "routes": [
                    { "route": "app.host.tld" },
                    { "route": "app.host.tld:1234" },
@@ -18,6 +15,28 @@ test_uses_routes_array {
     } 
     no_violations with input as input
     no_warnings with input as input
+}
+
+test_multiple_apps_routes_and_host {
+    input := { 
+        "applications": [
+            {
+                "name": "foo",
+                "routes": [
+                   { "route": "app.host.tld" },
+                   { "route": "app.host.tld:1234" },
+                   { "route": "app.host.tld/path"}
+                ]
+            },
+            {
+                "name": "bar",
+                "host": "app"
+            }
+        ]
+    } 
+    
+    no_violations with input as input
+    warn["The component attributes for specifying routes have been deprecated. Use the routes array instead."] with input as input
 }
 
 test_route_structure {
@@ -277,7 +296,7 @@ test_no_routes_with_deprecated_component_attributes {
     deny["Routes array cannot be used with deprecated routing attributes"] with input as input
 }
 
-test_no_routes_with_deprecated_component_attributes {
+test_no_routes_with_deprecated_component_attributes_this_one {
     input := {
         "applications": [
             {
@@ -285,7 +304,7 @@ test_no_routes_with_deprecated_component_attributes {
                 "routes": [
                    { "route": "app.host.tld" }
                 ],
-                "host": "app.host.tld" 
+                "host": "app" 
             }
         ]
     }
