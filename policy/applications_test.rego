@@ -39,7 +39,7 @@ test_no_zero_instance_applications {
   deny["There will be no running instances of application foo"] with input as input
 }
 
-test_warn_health_check_none {
+test_no_health_check_none {
   input := {
     "applications": [
       { 
@@ -49,4 +49,16 @@ test_warn_health_check_none {
     ]
   }
   deny["Health check type none has been removed in the latest Cloud Foundry CLI"] with input as input
+}
+
+test_health_check_type {
+  input := {
+    "applications": [
+      { 
+        "name": "foo",
+        "health-check-type": "ssh"
+      }
+    ]
+  }
+  deny["Health check type must be port, process, or http"] with input as input
 }

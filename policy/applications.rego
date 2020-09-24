@@ -22,3 +22,20 @@ deny[msg] {
     input.applications[app]["health-check-type"] == "none"
     msg = "Health check type none has been removed in the latest Cloud Foundry CLI"
 }
+
+deny[msg] {
+    has_health_check_type
+    not has_valid_health_check
+    msg = "Health check type must be port, process, or http"
+}
+
+has_health_check_type {
+    input.applications[app]["health-check-type"]
+}    
+
+has_valid_health_check {
+    health_check_types := [ "process", "port", "http" ]
+    some app
+    some type
+    health_check_types[type] == input.applications[app]["health-check-type"]
+}    
