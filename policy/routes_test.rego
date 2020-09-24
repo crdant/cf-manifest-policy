@@ -5,9 +5,6 @@ test_uses_routes_array {
         "applications": [
             {
                 "name": "application",
-                "buildpacks": [
-                    "buildpack"
-                ],
                 "routes": [
                    { "route": "app.host.tld" },
                    { "route": "app.host.tld:1234" },
@@ -87,6 +84,22 @@ test_warn_no_route_override {
     input := {
         "applications": [
             {
+                "name": "foo",
+                "routes": { "route": "app.domain.tld" },
+            },
+            {
+                "name": "bar",
+                "no-route": true
+            }
+        ]
+    }    
+    not warn["Specifying no-route will override all other routing attributes"] with input as input 
+}
+
+test_warn_no_route_override {
+    input := {
+        "applications": [
+            {
                 "name": "application",
                 "domain": "domain.tld",
                 "no-route": true
@@ -94,6 +107,22 @@ test_warn_no_route_override {
         ]
     }    
     warn["Specifying no-route will override all other routing attributes"] with input as input 
+}
+
+test_warn_no_route_override {
+    input := {
+        "applications": [
+            {
+                "name": "foo",
+                "domain": "domain.tld",
+            },
+            {
+                "name": "bar",
+                "no-route": true
+            }
+        ]
+    }    
+    not warn["Specifying no-route will override all other routing attributes"] with input as input 
 }
 
 test_warn_no_route_override {
@@ -113,6 +142,22 @@ test_warn_no_route_override {
     input := {
         "applications": [
             {
+                "name": "foo",
+                "domains": [ "domain.tld", "another.tld" ],
+            },
+            {
+                "name": "bar",
+                "no-route": true
+            }
+        ]
+    }    
+    not warn["Specifying no-route will override all other routing attributes"] with input as input 
+}
+
+test_warn_no_route_override {
+    input := {
+        "applications": [
+            {
                 "name": "application",
                 "host": "app",
                 "no-route": true
@@ -120,6 +165,22 @@ test_warn_no_route_override {
         ]
     }    
     warn["Specifying no-route will override all other routing attributes"] with input as input 
+}
+
+test_warn_no_route_override {
+    input := {
+        "applications": [
+            {
+                "name": "foo",
+                "host": "app",
+            },
+            {   
+                "name": "bar",
+                "no-route": true
+            }
+        ]
+    }    
+    not warn["Specifying no-route will override all other routing attributes"] with input as input 
 }
 
 test_warn_no_route_override {
@@ -136,6 +197,25 @@ test_warn_no_route_override {
         ]
     }    
     warn["Specifying no-route will override all other routing attributes"] with input as input 
+}
+
+test_warn_no_route_override {
+    input := {
+        "applications": [
+            {
+                "name": "foo",
+                "hosts": [
+                    "app",
+                    "another"
+                ]
+            },
+            {
+                "name": "bar",
+                "no-route": true
+            }
+        ]
+    }    
+    not warn["Specifying no-route will override all other routing attributes"] with input as input 
 }
 
 test_warn_random_route_ignored {
@@ -168,6 +248,22 @@ test_warn_random_route_ignored {
     input := {
         "applications": [
             {
+                "name": "foo",
+                "host": "app"
+            },
+            {
+                "name": "bar",
+                "random-route": true
+            }
+        ]
+    }
+    not warn["Random route will not be generated if routes are specified"] with input as input
+}
+
+test_warn_random_route_ignored {
+    input := {
+        "applications": [
+            {
                 "name": "application",
                 "hosts": [
                     "app",
@@ -178,6 +274,25 @@ test_warn_random_route_ignored {
         ]
     }
     warn["Random route will not be generated if routes are specified"] with input as input
+}
+
+test_warn_random_route_ignored {
+    input := {
+        "applications": [
+            {
+                "name": "foo",
+                "hosts": [
+                    "app",
+                    "another"
+                ]
+            },
+            {
+                "name": "bar",
+                "random-route": true
+            }
+        ]
+    }
+    not warn["Random route will not be generated if routes are specified"] with input as input
 }
 
 test_warn_deprecated_domain {
@@ -264,6 +379,25 @@ test_no_routes_with_deprecated_component_attributes {
     input := {
         "applications": [
             {
+                "name": "foo",
+                "routes": [
+                   { "route": "app.host.tld" }
+                ]
+            },
+            {
+                "name": "bar",
+                "domain": "host.tld"
+            }
+        ]
+    }
+    no_violations with input as input
+    warn["The component attributes for specifying routes have been deprecated. Use the routes array instead."] with input as input
+}
+
+test_no_routes_with_deprecated_component_attributes {
+    input := {
+        "applications": [
+            {
                 "name": "application",
                 "routes": [
                    { "route": "app.host.tld" }
@@ -281,15 +415,56 @@ test_no_routes_with_deprecated_component_attributes {
     input := {
         "applications": [
             {
+                "name": "foo",
+                "routes": [
+                   { "route": "app.host.tld" }
+                ]
+            },
+            {
+                "name": "bar",
+                "domains": [
+                    "host.tld"
+                ]
+            }
+        ]
+    }
+    no_violations with input as input
+    warn["The component attributes for specifying routes have been deprecated. Use the routes array instead."] with input as input
+}
+
+test_no_routes_with_deprecated_component_attributes {
+    input := {
+        "applications": [
+            {
                 "name": "application",
                 "routes": [
                    { "route": "app.host.tld" }
                 ],
-                "host": "app.host.tld" 
+                "host": "app" 
             }
         ]
     }
     deny["Routes array cannot be used with deprecated routing attributes"] with input as input
+}
+
+test_no_routes_with_deprecated_component_attributes {
+    input := { 
+        "applications": [
+            {
+                "name": "foo",
+                "routes": [
+                   { "route": "app.host.tld" }
+                ]
+            },
+            {
+                "name": "bar",
+                "host": "app"
+            }
+        ]
+    } 
+    
+    no_violations with input as input
+    warn["The component attributes for specifying routes have been deprecated. Use the routes array instead."] with input as input
 }
 
 test_no_routes_with_deprecated_component_attributes {
@@ -301,10 +476,34 @@ test_no_routes_with_deprecated_component_attributes {
                    { "route": "app.host.tld" }
                 ],
                 "hosts": [
-                    "app.host.tld" 
+                    "app",
+                    "another"
                 ],
             }
         ]
     }
     deny["Routes array cannot be used with deprecated routing attributes"] with input as input
+}
+
+test_no_routes_with_deprecated_component_attributes {
+    input := { 
+        "applications": [
+            {
+                "name": "foo",
+                "routes": [
+                   { "route": "app.host.tld" }
+                ]
+            },
+            {
+                "name": "bar",
+                "hosts": [
+                    "app",
+                    "another"
+                ]
+            }
+        ]
+    } 
+    
+    no_violations with input as input
+    warn["The component attributes for specifying routes have been deprecated. Use the routes array instead."] with input as input
 }

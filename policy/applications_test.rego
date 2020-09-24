@@ -11,6 +11,118 @@ test_minimal_manifest{
   no_violations with input as input
 }
 
+test_multiple_apps {
+  input := {
+    "applications": [
+      { 
+        "name": "foo"
+      },
+      {
+        "name": "bar"
+      }
+    ]
+  }
+  no_violations with input as input
+}
+
+test_unique_application_names {
+  input := {
+    "applications": [
+      { 
+        "name": "foo"
+      },
+      {
+        "name": "foo"
+      }
+    ]
+  }
+  deny["Applications must have unique names"] with input as input
+}
+
+test_multiple_apps {
+  input := {
+    "applications": [
+      { 
+        "name": "foo"
+      },
+      {
+        "name": "bar"
+      }
+    ]
+  }
+  no_violations with input as input
+}
+
+test_multiple_apps {
+  input := {
+    "applications": [
+      { 
+        "name": "foo"
+      },
+      {
+        "name": "bar"
+      }
+    ]
+  }
+  no_violations with input as input
+}
+
+test_multiple_apps {
+  input := {
+    "applications": [
+      { 
+        "name": "foo"
+      },
+      {
+        "name": "bar"
+      }
+    ]
+  }
+  no_violations with input as input
+}
+
+test_multiple_apps {
+  input := {
+    "applications": [
+      { 
+        "name": "foo"
+      },
+      {
+        "name": "bar"
+      }
+    ]
+  }
+  no_violations with input as input
+}
+
+test_multiple_apps {
+  input := {
+    "applications": [
+      { 
+        "name": "foo"
+      },
+      {
+        "name": "bar"
+      }
+    ]
+  }
+  no_violations with input as input
+}
+
+test_multiple_apps {
+  input := {
+    "applications": [
+      { 
+        "name": "foo"
+      },
+      {
+        "name": "bar"
+      }
+    ]
+  }
+  no_violations with input as input
+}
+
 test_manifest_with_no_applications {
   deny["Manifest must include at least one application to deploy"] with input as {}
 }

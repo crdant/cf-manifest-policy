@@ -5,6 +5,15 @@ deny[msg] {
     msg = "Manifest must include at least one application to deploy"
 }
 
+deny[msg] {
+    some app
+    some another
+    input.applications[app].name == input.applications[another].name
+    not app == another
+
+    msg = "Applications must have unique names"
+}
+
 warn[msg] {
     some app
     input.applications[app].instances == 1
