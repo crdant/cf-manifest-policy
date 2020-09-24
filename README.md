@@ -1,5 +1,7 @@
 # Cloud Foundry Manifest Policy Examples
 
+![Release](https://github.com/crdant/cf-manifest-policy/workflows/Release/badge.svg)
+
 A set of [OPA](https://openpolicyagent.org/) policies to validate 
 [Cloud Foundry](https://cloudfoundry.org) or [Tanzu Application
 Service](https://tanzu.vmware.com/application-service) deployment
