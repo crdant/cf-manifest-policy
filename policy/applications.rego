@@ -7,9 +7,10 @@ deny[msg] {
 
 deny[msg] {
     some app
-    some other
-    input.applications[app].name == input.applications[other].name
-    not app == other
+    some another
+    input.applications[app].name == input.applications[another].name
+    not app == another
+
     msg = "Applications must have unique names"
 }
 
