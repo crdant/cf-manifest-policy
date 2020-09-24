@@ -42,6 +42,24 @@ test_no_buildpack_with_buildpacks {
     deny["The buildpack field has been deprecated and cannot be used with the buildpacks array"] with input as input
 }
 
+test_no_buildpack_with_buildpacks {
+    input := {
+        "applications": [
+            {
+                "name": "foo",
+                "buildpack": "buildpack"
+            },
+            {
+                "name": "bar",
+                "buildpacks": [
+                   "buildpack"
+                ]
+            }
+        ]
+    }
+    no_violations with input as input
+}
+
 test_no_empty_buildpack {
     input := {
         "applications": [
@@ -148,6 +166,25 @@ test_no_multiple_with_deprecated_route_attributes {
     input := {
         "applications": [
             {
+                "name": "foo",
+                "buildpacks": [
+                    "buildpack",
+                    "another"
+                ]
+            },
+            {   
+                "name": "bar",
+                "domain": "host.tld"
+            }
+        ]
+    }
+    no_violations with input as input
+}
+
+test_no_multiple_with_deprecated_route_attributes {
+    input := {
+        "applications": [
+            {
                 "name": "application",
                 "buildpacks": [
                     "buildpack",
@@ -171,11 +208,30 @@ test_no_multiple_with_deprecated_route_attributes {
                     "buildpack",
                     "another"
                 ],
-                "host": "app.host.tld"
+                "host": "app"
             }
         ]
     }
     deny["Multiple buildpacks cannot be used with deprecated routing attributes"] with input as input
+}
+
+test_no_multiple_with_deprecated_route_attributes {
+    input := {
+        "applications": [
+            {
+                "name": "foo",
+                "buildpacks": [
+                    "buildpack",
+                    "another"
+                ]
+            },
+            {
+                "name": "bar",
+                "host": "app"
+            }
+        ]
+    }
+    no_violations with input as input
 }
 
 test_no_multiple_with_deprecated_route_attributes {
@@ -188,12 +244,33 @@ test_no_multiple_with_deprecated_route_attributes {
                     "another"
                 ],
                 "hosts": [
-                    "app.host.tld"
+                    "app"
                 ]
             }
         ]
     }
     deny["Multiple buildpacks cannot be used with deprecated routing attributes"] with input as input
+}
+
+test_no_multiple_with_deprecated_route_attributes {
+    input := {
+        "applications": [
+            {
+                "name": "foo",
+                "buildpacks": [
+                    "buildpack",
+                    "another"
+                ]
+            },
+            {
+                "name": "bar",
+                "hosts": [
+                    "app"
+                ]
+            }
+        ]
+    }
+    no_violations with input as input
 }
 
 test_no_multiple_with_deprecated_route_attributes {
@@ -210,5 +287,24 @@ test_no_multiple_with_deprecated_route_attributes {
         ]
     }
     deny["Multiple buildpacks cannot be used with deprecated routing attributes"] with input as input
+}
+
+test_no_multiple_with_deprecated_route_attributes {
+    input := {
+        "applications": [
+            {
+                "name": "foo",
+                "buildpacks": [
+                    "buildpack",
+                    "another"
+                ]
+            },
+            {
+                "name": "bar",
+                "no-hostname": true 
+            }
+        ]
+    }
+    no_violations with input as input
 }
 
