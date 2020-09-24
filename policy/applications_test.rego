@@ -62,3 +62,41 @@ test_health_check_type {
   }
   deny["Health check type must be port, process, or http"] with input as input
 }
+
+test_no_route_health_check {
+  input := {
+    "applications": [
+      { 
+        "name": "foo",
+        "no-route": true
+      }
+    ]
+  }
+  warn["If application foo does not listen on a port, Diego will mark it as crashed."] with input as input
+}
+
+test_no_route_health_check {
+  input := {
+    "applications": [
+      { 
+        "name": "foo",
+        "no-route": true,
+        "health-check-type": "process"
+      }
+    ]
+  }
+  not warn["If application foo does not listen on a port, Diego will mark it as crashed."] with input as input
+}
+
+test_no_route_health_check {
+  input := {
+    "applications": [
+      { 
+        "name": "foo",
+        "no-route": true,
+        "health-check-type": "port"
+      }
+    ]
+  }
+  warn["If application foo does not listen on a port, Diego will mark it as crashed."] with input as input
+}

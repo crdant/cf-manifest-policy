@@ -35,7 +35,24 @@ has_health_check_type {
 
 has_valid_health_check {
     health_check_types := [ "process", "port", "http" ]
+    
     some app
     some type
     health_check_types[type] == input.applications[app]["health-check-type"]
-}    
+}
+
+warn[msg] {
+    some app
+    input.applications[app]["no-route"]
+    not input.applications[app]["health-check-type"]
+    
+    msg = sprintf("If application %v does not listen on a port, Diego will mark it as crashed.", [ input.applications[app].name ])
+}
+
+warn[msg] {
+    some app
+    input.applications[app]["no-route"]
+    not input.applications[app]["health-check-type"] == "process"
+    
+    msg = sprintf("If application %v does not listen on a port, Diego will mark it as crashed.", [ input.applications[app].name ])
+}
