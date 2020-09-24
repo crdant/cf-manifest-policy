@@ -15,7 +15,7 @@ test_manifest_with_no_applications {
   deny["Manifest must include at least one application to deploy"] with input as {}
 }
 
-test_warn_with_only_one_interface {
+test_warn_with_only_one_instance {
   input := {
     "applications": [
       { 
@@ -25,4 +25,16 @@ test_warn_with_only_one_interface {
     ]
   }
   warn["To ensure that platform maintenance does not interrupt your app, run at least two instances."] with input as input
+}
+
+test_no_zero_instance_applications {
+  input := {
+    "applications": [
+      { 
+        "name": "foo",
+        "instances": 0
+      }
+    ]
+  }
+  deny["There will be no running instances of application foo"] with input as input
 }
